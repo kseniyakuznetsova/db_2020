@@ -19,8 +19,8 @@ public class RiddleGame implements Game{
 
     private final int maxLimit;
     private int number;
-    private int score = 99;
-    private int numOfAttempts = 0;
+    private int score = 100;
+    private int numOfAttempts = 1;
     private List<Integer> scoresList = new ArrayList<>();
 
     public RiddleGame(int max) {
@@ -31,19 +31,17 @@ public class RiddleGame implements Game{
     public void play() {
         createGame();
         while(true){
-            String answer = JOptionPane.showInputDialog("Input your number (Attempt: " + numOfAttempts + ")");
+            String answer = JOptionPane.showInputDialog("Input your number (Attempt: " + numOfAttempts+ ")");
             if (answer != null) {
                 if(Integer.parseInt(answer) == number){
-                    score++;
-                    numOfAttempts++;
                     scoresList.add(score);
                     System.out.println("Number: " + answer + " Your score: " + score + ", num of attempt: " + numOfAttempts);
                     System.out.println("Best score: " + calcBestScore());
                     createGame();
                 }else {
                     score--;
-                    numOfAttempts++;
                     System.out.println("Number: " + answer + " Your score: " + score + ", num of attempt: " + numOfAttempts);
+                    numOfAttempts++;
                 }
             }else{
                 System.out.println("GAME END");
@@ -55,8 +53,8 @@ public class RiddleGame implements Game{
     private void createGame(){
         System.out.println("*************** START NEW GAME ****************");
         generateNumber();
-        numOfAttempts = 0;
-        score = 99;
+        numOfAttempts = 1;
+        score = 100;
     }
 
     private int calcBestScore(){
