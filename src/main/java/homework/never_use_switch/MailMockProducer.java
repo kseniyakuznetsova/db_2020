@@ -10,7 +10,7 @@ import org.fluttercode.datafactory.impl.DataFactory;
  */
 public class MailMockProducer {
 
-    private MailDistributor mailDistributor = new MailDistributor();
+    private MailService mailDistributor = new MailService();
     private Faker faker = new Faker();
     private DataFactory dataFactory = new DataFactory();
 
