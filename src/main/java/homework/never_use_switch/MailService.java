@@ -16,8 +16,10 @@ public class MailService {
 
     public void sendMailInfo(MailInfo mailInfo){
         int mailType = mailInfo.getMailType();
-        MailDistributor distributor = distributorMap.get(mailType);
-        distributor.sendMailInfo(mailInfo);
+        if(distributorMap.containsKey(mailType)){
+            MailDistributor distributor =  distributorMap.get(mailType);
+            distributor.sendMailInfo(mailInfo);
+        }
     }
 
 }
