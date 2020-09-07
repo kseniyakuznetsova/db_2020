@@ -34,6 +34,15 @@ public class ObjectFactoryTest {
         SuperHero superHero = ObjectFactory.getInstance().createObject(SuperHero.class);
         Assert.assertEquals(Batman.class, superHero.getClass());
     }
+
+    @Test
+    public void isConsoleSpeakerHasOneInstance() {
+        ObjectFactory factory = ObjectFactory.getInstance();
+        ConsoleSpeaker consoleSpeaker1 = factory.createObject(ConsoleSpeaker.class);
+        ConsoleSpeaker consoleSpeaker2 = factory.createObject(ConsoleSpeaker.class);
+
+        Assert.assertEquals(consoleSpeaker1, consoleSpeaker2);
+    }
 }
 
 
