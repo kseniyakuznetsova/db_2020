@@ -17,7 +17,7 @@ import java.util.*;
  * @author Evgeny Borisov
  */
 public class ObjectFactory {
-    
+
     private static ObjectFactory objectFactory = new ObjectFactory();
     @Setter
     private Config config;
@@ -44,7 +44,9 @@ public class ObjectFactory {
     }
 
     public static void addSingletonToCache(Class cl, Object object){
-        cache.put(cl,object);
+        if(!cache.containsKey(cl)){
+            cache.put(cl,object);
+        }
     }
 
     @SneakyThrows
