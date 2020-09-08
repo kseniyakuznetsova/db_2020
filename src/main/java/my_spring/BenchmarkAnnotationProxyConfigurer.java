@@ -8,10 +8,10 @@ import java.util.Arrays;
 
 public class BenchmarkAnnotationProxyConfigurer implements ProxyConfigurer {
     @Override
-    public <T> T configure(T t, Class type) {
-        boolean hasMethodAnnotation = Arrays.stream(type.getMethods()).anyMatch(m -> m.isAnnotationPresent(Benchmark.class));
-        if (type.isAnnotationPresent(Benchmark.class) || hasMethodAnnotation) {
-            return (T) Proxy.newProxyInstance(type.getClassLoader(), type.getInterfaces(), new InvocationHandler() {
+    public <T> T configure(T t) {
+        boolean hasMethodAnnotation = Arrays.stream(t.getClass().getMethods()).anyMatch(m -> m.isAnnotationPresent(Benchmark.class));
+        if (t.getClass().isAnnotationPresent(Benchmark.class) || hasMethodAnnotation) {
+            return (T) Proxy.newProxyInstance(t.getClass().getClassLoader(), t.getClass().getInterfaces(), new InvocationHandler() {
                 @Override
                 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 

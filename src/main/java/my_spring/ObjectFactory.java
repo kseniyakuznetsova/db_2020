@@ -56,7 +56,7 @@ public class ObjectFactory {
 
         invokeInitMethod(implClass, t);
 
-        t = wrap(implClass, t);
+        t = wrap(t);
 
         return t;
     }
@@ -76,9 +76,9 @@ public class ObjectFactory {
 
 
 
-    private <T> T wrap(Class<T> type, T t) {
+    private <T> T wrap(T t) {
         for (ProxyConfigurer proxyConfigurer : proxyConfigurers) {
-            t = proxyConfigurer.configure(t, type);
+            t = proxyConfigurer.configure(t);
         }
         return t;
     }
