@@ -21,6 +21,8 @@ public class ObjectFactory {
 
     private List<ObjectConfigurer> objectConfigurers = new ArrayList<>();
 
+    private List<ProxyConfigurer> proxyConfigurers = new ArrayList<>();
+
     private Reflections scanner;
 
     @SneakyThrows
@@ -32,6 +34,13 @@ public class ObjectFactory {
         for (Class<? extends ObjectConfigurer> aClass : classes) {
             if (!Modifier.isAbstract(aClass.getModifiers())) {
                 objectConfigurers.add(aClass.getDeclaredConstructor().newInstance());
+            }
+        }
+
+        Set<Class<? extends ProxyConfigurer>> proxyClasses = scanner.getSubTypesOf(ProxyConfigurer.class);
+        for (Class<? extends ProxyConfigurer> aClass : proxyClasses) {
+            if (!Modifier.isAbstract(aClass.getModifiers())) {
+                proxyConfigurers.add(aClass.getDeclaredConstructor().newInstance());
             }
         }
     }
@@ -47,21 +56,7 @@ public class ObjectFactory {
 
         invokeInitMethod(implClass, t);
 
-        if (implClass.isAnnotationPresent(Benchmark.class)) {
-            return (T) Proxy.newProxyInstance(implClass.getClassLoader(), implClass.getInterfaces(), new InvocationHandler() {
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                    System.out.println("************* BENCHMARK STARTED for method "+ method.getName()+" ****************");
-                    long start = System.nanoTime();
-                    Object retVal = method.invoke(t, args);
-                    long end = System.nanoTime();
-                    System.out.println(end-start);
-                    System.out.println("************* BENCHMARK ENDED for method "+ method.getName()+" ****************");
-                    return retVal;
-                }
-            });
-        }
+        t = wrap(implClass, t);
 
         return t;
     }
@@ -81,7 +76,12 @@ public class ObjectFactory {
 
 
 
-
+    private <T> T wrap(Class<T> type, T t) {
+        for (ProxyConfigurer proxyConfigurer : proxyConfigurers) {
+            t = proxyConfigurer.configure(t, type);
+        }
+        return t;
+    }
 
 
     private <T> void configure(T t) {
