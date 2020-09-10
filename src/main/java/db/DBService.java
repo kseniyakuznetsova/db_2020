@@ -12,11 +12,13 @@ import java.util.List;
 public class DBService {
 
     @Autowired
-    @Oracle
+    //@Oracle
+    @DAOType(databaseType = DatabaseTypes.ORACLE)
     private DAO dbDAOForDoWork;
 
     @Autowired
-    @Derby
+    //@Derby
+    @DAOType(databaseType = DatabaseTypes.DERBY)
     private DAO dbDAOForBackup;
 
     @Scheduled(fixedDelay = 1000)

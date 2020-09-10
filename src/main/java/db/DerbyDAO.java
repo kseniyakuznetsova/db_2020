@@ -2,7 +2,8 @@ package db;
 
 import org.springframework.stereotype.Component;
 
-@Derby
+@DAOType(databaseType = DatabaseTypes.DERBY)
+//@Derby
 @Component
 public class DerbyDAO implements DAO {
     @Override

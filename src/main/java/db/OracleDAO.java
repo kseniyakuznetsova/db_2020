@@ -2,7 +2,8 @@ package db;
 
 import org.springframework.stereotype.Component;
 
-@Oracle
+@DAOType(databaseType = DatabaseTypes.ORACLE)
+//@Oracle
 @Component
 public class OracleDAO implements DAO {
     @Override
